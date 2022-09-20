@@ -1,0 +1,32 @@
+from urllib import request, parse
+import json
+headers = {'Content-Type': 'application/json; chearset=utf-8'}
+data = {
+    'access_key': 'c623a12a-2a15-44bc-8d93-183b5b6834b4',
+    'argument': {
+        'query' : '취업',
+        'published_at': {
+            'from' : '2020-01-01',
+            'until' : '2022-08-31'
+        },
+        'return_from' : 1001,
+        'return_size' : 2,
+        "fields" : ['content']
+        }
+        }
+req = request.Request('http://tools.kinds.or.kr:8888/search/news', headers=headers, data=json.dumps(data).encode('utf-8'))
+res = request.urlopen(req)
+
+
+json_str = res.read().decode('utf-8')
+json_object = json.loads(json_str)
+json_object
+
+import pandas as pd
+from pandas.io.json import json_normalize
+
+# body = [json_object['return_object']['documents']]
+# body
+data = json_normalize(json_object['return_object']['documents'])
+
+data['content']
