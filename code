@@ -2,16 +2,24 @@ from urllib import request, parse
 import json
 headers = {'Content-Type': 'application/json; chearset=utf-8'}
 data = {
-    'access_key': 'c623a12a-2a15-44bc-8d93-183b5b6834b4',
+    'access_key': 'c623a12a-2a15-44bc-8d93-183b5b6834b4',            # 인증키
     'argument': {
-        'query' : '취업',
-        'published_at': {
-            'from' : '2020-01-01',
+        #'query' : '취업',                                           # query : 검색 질의어 지정(검색어 없이 검색 가능)
+        'published_at': {                                            # published_at : 검색 기간 지정 (YYYY-MM-DD)
+            'from' : '2022-08-01',
             'until' : '2022-08-31'
         },
-        'return_from' : 1001,
-        'return_size' : 2,
-        "fields" : ['content']
+        #'provider' : ['경향신문'],                                  # provider : 언론사 지정
+        'category' : ['정치>정치일반','IT_과학'],                     # category : 한국언론진흥재단에서 지정한 뉴스 통합 분류체계 값을 조건으로 지정
+        #'category_incident' : ['범죄','교통사고','재해>자연재해'],    # category_incident : 한국언론진흥재단에서 지정한 뉴스 사건/사고 분류체계 값을 조건으로 지정
+        #'byline' : '',                                             # byline : 기자 이름을 조건으로 지정
+        #'provider_subject' : ['경제', '부동산'],                    # provider_subject : 언론사에서 제공한 뉴스의 주제 분류 값(코드)을 조건으로 지정
+                                                                    # subject_info 또는 subject_info1~subject_info4를 이용한 검색을 권장
+        'sort' : {'date' : 'desc'},                                 # sort : 검색된 뉴스기사의 정렬방식 (default : 정확도 순)
+        #'highlight' : 200,                                         # hilight : 기사에서 검색어가 포함된 영역을 찾아 지정한 범위(최대 200자)를 출력
+        'return_from' : 1,                                          # return_from : 검색된 결과 목록에서 반환할 시작 위치 지정 (최대 20,000)
+        'return_size' : 1000,                                       # return_size : 반환 시작위치부터 반환할 개수 (최대 10,000~15,000)
+        "fields" : ['content']                                      # fields : 출력 결과에서 반환할 필드값 지정
         }
         }
 req = request.Request('http://tools.kinds.or.kr:8888/search/news', headers=headers, data=json.dumps(data).encode('utf-8'))
@@ -22,6 +30,7 @@ json_str = res.read().decode('utf-8')
 json_object = json.loads(json_str)
 json_object
 
+#####  df로 만들기  #####
 import pandas as pd
 from pandas.io.json import json_normalize
 
@@ -29,4 +38,6 @@ from pandas.io.json import json_normalize
 # body
 data = json_normalize(json_object['return_object']['documents'])
 
-data['content']
+## CSV파일로 저장
+data.to_csv('data.csv', encoding = 'utf-8-sig')
+
