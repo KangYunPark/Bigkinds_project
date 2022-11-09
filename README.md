@@ -4,3 +4,4 @@
 # 주제 : NLP, BERT 활용 첨삭서비스 
 # 결과 : 최우수상
 # 활용 아이디어 : ContextVector, Concatenation
+![Uploading 윤윤이, Dream IT시연 영상.gif…]()
