@@ -4,3 +4,4 @@
 # 주제 : NLP, BERT 활용 첨삭서비스 
 # 결과 : 최우수상
 # 활용 아이디어 : ContextVector, Concatenation
+https://user-images.githubusercontent.com/78800511/200964687-9fc4fba6-f177-49a1-9f78-64006370720c.gif
